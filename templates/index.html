@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>ZinnenGenerator</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.2/css/bootstrap.min.css" integrity="sha512-SBxX9vP+WJY81s/rR+4ChGzH4p4TXt+1J26pZ8oA+pXfJhD2M2OheUDyRp8wW/pLz1ZC1nZPXGcveNThx9nSwQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <style>
+      .body {
+        font-family: Verdana;
+      }
+
+      .form-control {
+        border-radius: 20px;
+        border-color: #6f9ed6;
+        color: #6f9ed6;
+        font-weight: 600;
+      }
+
+      .btn-primary {
+        background-color: #0077c2;
+        border-color: #0077c2;
+        border-radius: 20px;
+        font-weight: 600;
+      }
+
+      .output-box {
+        border-radius: 10px;
+        background-color: #f5f5f5;
+        padding: 10px;
+        margin-top: 10px;
+      }
+
+      .output-text {
+        font-size: 28px;
+        color: #000000;
+        font-weight: 100;
+      }
+
+      h1, h2, label {
+        color: #0077c2;
+      }
+</style>
+
+  </head>
+  <body>
+    <div class="background-image"></div>
+    <div class="container my-5">
+      <h1 class="mb-4">ZiNnEnGeNeRaToR</h1>
+      <form action="/process" method="POST">
+        <div>
+          <button type="submit" class="btn btn-primary mt-2">Hit me</button>
+          <label for="zin-alinea">Parameters:</label>
+          <input type="radio" id="zin" name="print" value="zin" checked="True">
+          <label for="zin-type">Zin</label>
+          <input type="radio" id="alinea" name="print" value="alinea">
+          <label for="alinea-type">Alinea</label>
+          <label for="aantal">Aantal:</label>
+          <select id="aantal" name="aantal">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+          <input type="checkbox" id="sound" name="sound" value="True">
+          <label for="sound">Spraak</label>
+          <input type="checkbox" id="samenhang" name="samenhang" value="True" checked="True">
+          <label for="samenhang">Samenhang</label>
+          <label for="thema">Thema:</label>
+          <select id="thema" name="thema">
+            <option value="random" checked="True">Random</option>
+            <option value="meubels">Meubels</option>
+            <option value="mensen">Mensen</option>
+            <option value="dieren">Dieren</option>
+            <option value="voertuigen">Voertuigen</option>
+            <option value="plaatsen">Plaatsen</option>
+            <option value="gebouwen">Gebouwen</option>
+            <option value="bomen">Bomen</option>
+            <option value="planten">Planten</option>
+          </select>
+      </form>
+
+      <script>
+        const TypeAlinea = document.getElementById("alinea");
+        const TypeZin = document.getElementById('zin');
+        const aantalSelect = document.getElementById("aantal");
+        
+        TypeAlinea.addEventListener("change", function() {
+          if (TypeAlinea.checked) {
+            aantalSelect.value = "5";
+          }
+        });
+        TypeZin.addEventListener("change", function() {
+          if (TypeZin.checked) {
+            aantalSelect.value = "1";
+          }
+        });
+      </script>
+      
+      <div class="output-box">
+        <font size=+2><class="output-text" id="output_text"></font>
+      </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.2/js/bootstrap.bundle.min.js" integrity="sha512-THOJH0WWb9oORfwjOSG0muIgQ2IVZnHmKk5m5g5b5rXhccKjH5c0ShxP4g7e4TDvH8V0UuM6cnNPV7+bXkMgxQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+      const form = document.querySelector('form');
+      const output = document.getElementById('output_text');
+      form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        output_text.innerText = "Even wachten";
+        output_image.src = '/static/zandloper2.gif';
+        const formData = new FormData(event.target);
+        const response = await fetch('/process', {
+          method: 'POST',
+          body: formData
+        });
+        const data = await response.json();
+        output_text.innerText = data.text;
+        output_image.src = data.image_url1;
+      });
+    </script>
+    
+    <center>
+    <table style="width: 90%; height: 100%; table-layout: fixed;margin: auto;border-collapse: collapse;">
+      <tr>
+        <td style="text-align: center; vertical-align: middle; width: 50%"><div class="container my-5">
+          <img id="output_image" width=65% src={{url_for('static', filename='itoperations.png')}}>
+        </div></td>
+        <td style="text-align: center; vertical-align: middle; width: 50%"> 
+          <img width=100% src={{url_for('static', filename='jip-en-janneke2.jpg')}}>
+        </td>
+      </tr>
+    </table>
+    <font size=-2>&copy Copyright 2023 by Frank/Erwin/Tom/Lucas/Bert/Wouter</font>
+    </center>
+  </body>
+</html>
